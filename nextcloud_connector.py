@@ -25,12 +25,14 @@ from __future__ import print_function, unicode_literals
 import json
 import random
 import string
-
 import nextcloud_client
+
 # Phantom App imports
 import phantom.app as phantom
 import phantom.rules as ph_rules
+
 # Usage of the consts file is recommended
+
 # from nextcloud_consts import *
 import requests
 from phantom.action_result import ActionResult
@@ -282,7 +284,7 @@ class NextcloudConnector(BaseConnector):
         if action_id == 'upload_file':
             ret_val = self._handle_upload_file(param)
 
-        if action_id == 'delete':
+        if action_id == 'delete_item':
             ret_val = self._handle_delete(param)
 
         if action_id == 'create_folder':
@@ -291,16 +293,16 @@ class NextcloudConnector(BaseConnector):
         if action_id == 'download_folder':
             ret_val = self._handle_download_folder(param)
 
-        if action_id == 'get_file':
+        if action_id == 'download_file':
             ret_val = self._handle_get_file(param)
 
-        if action_id == 'list':
+        if action_id == 'get_folder_content':
             ret_val = self._handle_list(param)
 
-        if action_id == 'move':
+        if action_id == 'move_file':
             ret_val = self._handle_move(param)
 
-        if action_id == 'file_info':
+        if action_id == 'get_file_info':
             ret_val = self._handle_file_info(param)
 
         if action_id == 'test_connectivity':
