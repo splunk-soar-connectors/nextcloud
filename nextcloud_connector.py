@@ -25,14 +25,12 @@ from __future__ import print_function, unicode_literals
 import json
 import random
 import string
-import nextcloud_client
 
+import nextcloud_client
 # Phantom App imports
 import phantom.app as phantom
 import phantom.rules as ph_rules
-
 # Usage of the consts file is recommended
-
 # from nextcloud_consts import *
 import requests
 from phantom.action_result import ActionResult
