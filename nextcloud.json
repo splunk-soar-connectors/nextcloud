@@ -60,7 +60,7 @@
         {
             "action": "test connectivity",
             "identifier": "test_connectivity",
-            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "description": "Validate the asset configuration for connectivity using supplied configuration.",
             "verbose": "",
             "type": "test",
             "read_only": true,
@@ -71,7 +71,7 @@
         {
             "action": "upload file",
             "identifier": "upload_file",
-            "description": "Upload file to a Nextcloud folder",
+            "description": "Upload file to a Nextcloud folder.",
             "verbose": "",
             "type": "generic",
             "read_only": false,
@@ -188,7 +188,7 @@
         {
             "action": "delete item",
             "identifier": "delete_item",
-            "description": "Delete a file or a folder",
+            "description": "Delete a file or a folder.",
             "verbose": "",
             "type": "generic",
             "read_only": false,
@@ -242,7 +242,7 @@
         {
             "action": "create folder",
             "identifier": "create_folder",
-            "description": "Create new folder",
+            "description": "Create new folder.",
             "verbose": "",
             "type": "generic",
             "read_only": false,
@@ -296,7 +296,7 @@
         {
             "action": "download folder",
             "identifier": "download_folder",
-            "description": "Download folder as zip",
+            "description": "Download folder as zip.",
             "verbose": "",
             "type": "generic",
             "read_only": false,
@@ -350,7 +350,7 @@
         {
             "action": "download file",
             "identifier": "download_file",
-            "description": "Download a specific file",
+            "description": "Download a specific file.",
             "verbose": "",
             "type": "generic",
             "read_only": false,
@@ -404,7 +404,7 @@
         {
             "action": "get folder content",
             "identifier": "get_folder_content",
-            "description": "List folder content",
+            "description": "List folder content.",
             "verbose": "",
             "type": "generic",
             "read_only": false,
@@ -478,7 +478,7 @@
         {
             "action": "move file",
             "identifier": "move_file",
-            "description": "Move files from a remote location to another",
+            "description": "Move files from a remote location to another.",
             "verbose": "",
             "type": "generic",
             "read_only": false,
@@ -552,7 +552,7 @@
         {
             "action": "get file info",
             "identifier": "get_file_info",
-            "description": "Get file info",
+            "description": "Get file info.",
             "verbose": "",
             "type": "generic",
             "read_only": false,
