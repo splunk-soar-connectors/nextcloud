@@ -168,7 +168,7 @@ class NextcloudConnector(BaseConnector):
         summary['destination_path'] = destination_path
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_delete(self, param):
+    def _handle_delete_item(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         path = param['path'].lstrip('/').rstrip('/')
@@ -208,7 +208,7 @@ class NextcloudConnector(BaseConnector):
         summary['vault_id'] = rest_result[2]
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_file(self, param):
+    def _handle_download_file(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         path = param['path'].lstrip('/').rstrip('/')
         file_name = path.split('/')[-1]
@@ -223,7 +223,7 @@ class NextcloudConnector(BaseConnector):
         summary['vault_id'] = rest_result[2]
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_list(self, param):
+    def _handle_get_folder_content(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         path = param.get('path', '').lstrip('/').rstrip('/')
@@ -241,7 +241,7 @@ class NextcloudConnector(BaseConnector):
         summary['status'] = 'Success'
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_move(self, param):
+    def _handle_move_file(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         initial_path = param.get('initial_path').lstrip('/').rstrip('/')
@@ -255,7 +255,7 @@ class NextcloudConnector(BaseConnector):
         summary['status'] = 'Success'
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_file_info(self, param):
+    def _handle_get_file_info(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         path = param.get('path', '').lstrip('/').rstrip('/')
@@ -283,7 +283,7 @@ class NextcloudConnector(BaseConnector):
             ret_val = self._handle_upload_file(param)
 
         if action_id == 'delete_item':
-            ret_val = self._handle_delete(param)
+            ret_val = self._handle_delete_item(param)
 
         if action_id == 'create_folder':
             ret_val = self._handle_create_folder(param)
@@ -292,16 +292,16 @@ class NextcloudConnector(BaseConnector):
             ret_val = self._handle_download_folder(param)
 
         if action_id == 'download_file':
-            ret_val = self._handle_get_file(param)
+            ret_val = self._handle_download_file(param)
 
         if action_id == 'get_folder_content':
-            ret_val = self._handle_list(param)
+            ret_val = self._handle_get_folder_content(param)
 
         if action_id == 'move_file':
-            ret_val = self._handle_move(param)
+            ret_val = self._handle_move_file(param)
 
         if action_id == 'get_file_info':
-            ret_val = self._handle_file_info(param)
+            ret_val = self._handle_get_file_info(param)
 
         if action_id == 'test_connectivity':
             ret_val = self._handle_test_connectivity(param)
