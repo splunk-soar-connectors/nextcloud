@@ -1,4 +1,19 @@
-#!/usr/bin/python
+# File: nextcloud_connector.py
+#
+# Copyright (c) Ionut Ciubotarasu, 2023.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
+# !/usr/bin/python
 # -*- coding: utf-8 -*-
 # -----------------------------------------
 # Phantom sample App Connector python file
@@ -7,19 +22,19 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
+import json
+import random
+import string
+
+import nextcloud_client
 # Phantom App imports
 import phantom.app as phantom
 import phantom.rules as ph_rules
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-
 # Usage of the consts file is recommended
 # from nextcloud_consts import *
 import requests
-import json
-from bs4 import BeautifulSoup
-import nextcloud_client
-import string, random
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
 
 
 class RetVal(tuple):
@@ -37,7 +52,7 @@ class NextcloudConnector(BaseConnector):
         self._username = None
         self._password = None
         self._verify_certs = None
-        
+
     def _randomstr(self, size=20, chars=string.ascii_lowercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
 
@@ -47,10 +62,10 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
         self.debug_print("base_url", self._base_url)
         self.debug_print("verify_certs", self._verify_certs)
-        
+
         nc = nextcloud_client.Client(self._base_url, verify_certs=self._verify_certs)
         nc.login(self._username, self._password)
-        
+
         try:
             response = nc.get_version()
             self.save_progress("Nextcloud version:{}".format(response))
@@ -64,7 +79,6 @@ class NextcloudConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _make_rest_call(self, action, **kwargs):
-        a = kwargs.get('verify_certs', True)
         nc = nextcloud_client.Client(self._base_url, verify_certs=self._verify_certs)
         nc.login(self._username, self._password)
         rest_result = None
@@ -115,7 +129,7 @@ class NextcloudConnector(BaseConnector):
             if initial_path is None or destination_path is None:
                 return False, rest_result
             result = nc.move(initial_path, destination_path)
-        elif action =='file_info':
+        elif action == 'file_info':
             path = kwargs.get('path', None)
             if path is None:
                 return False, rest_result
@@ -127,11 +141,11 @@ class NextcloudConnector(BaseConnector):
             return False, rest_result
         return True, rest_result
 
-
     def _handle_upload_file(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         vault_id = param['vault_id']
+        self.save_progress("vault_id: {}".format(vault_id))
         add_random_string = param['add_random_string']
         try:
             success, _, data = ph_rules.vault_info(vault_id=vault_id)
@@ -158,6 +172,7 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         path = param['path'].lstrip('/').rstrip('/')
+        self.save_progress("path: {}".format(path))
         result, rest_result = self._make_rest_call(action='delete', delete_path=path)
         if result is False:
             action_result.set_status(phantom.APP_ERROR, "Action failed")
@@ -169,6 +184,7 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         path = param['path'].lstrip('/').rstrip('/')
+        self.save_progress("path: {}".format(path))
         result, rest_result = self._make_rest_call(action='create_folder', create_folder=path)
         if result is False:
             action_result.set_status(phantom.APP_ERROR, "Action failed")
@@ -182,7 +198,9 @@ class NextcloudConnector(BaseConnector):
         path = param['path'].lstrip('/').rstrip('/')
         folder_name = path.split('/')[-1]
         download_path = '/tmp/' + self._randomstr() + folder_name + '.zip'
-        result, rest_result = self._make_rest_call(action='download_folder', download_folder = path, download_path = download_path, file_name = folder_name+'.zip')
+        self.save_progress("download_path: {}".format(download_path))
+        result, rest_result = self._make_rest_call(
+            action='download_folder', download_folder=path, download_path=download_path, file_name=folder_name + '.zip')
         if result is False:
             action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
@@ -196,20 +214,22 @@ class NextcloudConnector(BaseConnector):
         file_name = path.split('/')[-1]
         action_result = self.add_action_result(ActionResult(dict(param)))
         download_path = '/tmp/' + self._randomstr() + file_name
-        result, rest_result = self._make_rest_call(action='download_file', download_file = path, download_path = download_path, file_name = file_name)
+        self.save_progress("download_path: {}".format(download_path))
+        result, rest_result = self._make_rest_call(action='download_file', download_file=path, download_path=download_path, file_name=file_name)
         if result is False:
             action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
         summary['status'] = 'Success'
         summary['vault_id'] = rest_result[2]
         return action_result.set_status(phantom.APP_SUCCESS)
-    
+
     def _handle_list(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         path = param.get('path', '').lstrip('/').rstrip('/')
+        self.save_progress("path: {}".format(path))
         depth = param.get('depth', '')
-        result, rest_result = self._make_rest_call(action='list', path = path, depth = depth)
+        result, rest_result = self._make_rest_call(action='list', path=path, depth=depth)
         if result is False:
             action_result.set_status(phantom.APP_ERROR, "Action failed")
         action_result.add_data({'result': [{
@@ -225,8 +245,10 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         initial_path = param.get('initial_path').lstrip('/').rstrip('/')
+        self.save_progress("initial_path: {}".format(initial_path))
         destination_path = param.get('destination_path').lstrip('/').rstrip('/')
-        result, rest_result = self._make_rest_call(action='move', initial_path = initial_path, destination_path = destination_path)
+        self.save_progress("destination_path: {}".format(destination_path))
+        result, rest_result = self._make_rest_call(action='move', initial_path=initial_path, destination_path=destination_path)
         if result is False:
             action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
@@ -237,7 +259,8 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
         path = param.get('path', '').lstrip('/').rstrip('/')
-        result, rest_result = self._make_rest_call(action='file_info', path = path)
+        self.save_progress("path: {}".format(path))
+        result, rest_result = self._make_rest_call(action='file_info', path=path)
         if result is False:
             action_result.set_status(phantom.APP_ERROR, "Action failed")
         action_result.add_data({'path': rest_result.path,
@@ -295,7 +318,7 @@ class NextcloudConnector(BaseConnector):
         self._username = config.get('username')
         self._password = config.get('password')
         self._verify_certs = config.get('verify_certs')
-        
+
         return phantom.APP_SUCCESS
 
     def finalize(self):
