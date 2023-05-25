@@ -4,26 +4,25 @@
     "description": "Perform various actions in a Nextcloud self hosted environment",
     "type": "information",
     "product_vendor": "Nextcloud",
-    "logo": "nextcloud.svg",
-    "logo_dark": "nextcloud_dark.svg",
+    "logo": "logo_nextcloud.svg",
+    "logo_dark": "logo_nextcloud_dark.svg",
     "product_name": "Nextcloud",
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Ionut Ciubotarasu",
     "license": "Copyright (c) Ionut Ciubotarasu, 2023",
-    "app_version": "3.8.0",
+    "app_version": "1.0.0",
     "utctime_updated": "2023-05-24T15:13:59.032662Z",
     "package_name": "phantom_nextcloud",
     "main_module": "nextcloud_connector.py",
     "min_phantom_version": "6.0.0",
+    "fips_compliant": false,
     "app_wizard_version": "1.0.0",
     "configuration": {
         "nextcloud_url": {
             "description": "Nextcloud URL",
             "data_type": "string",
             "required": true,
-            "value_list": [],
-            "default": "",
             "order": 0,
             "name": "nextcloud_url",
             "id": 0
@@ -32,8 +31,6 @@
             "description": "Username",
             "data_type": "string",
             "required": true,
-            "value_list": [],
-            "default": "",
             "order": 1,
             "name": "username",
             "id": 1
@@ -49,7 +46,6 @@
         "verify_certs": {
             "description": "Verify Certs",
             "data_type": "boolean",
-            "required": false,
             "default": "True",
             "order": 3,
             "name": "verify_certs",
@@ -80,25 +76,19 @@
                     "description": "Phantom vault ID of file to be uploaded",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
                     "contains": [
                         "vault id"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 0,
                     "name": "vault_id",
                     "id": 1,
-                    "param_name": "vault_id"
+                    "param_name": "vault_id",
+                    "primary": true
                 },
                 "destination_path": {
                     "description": "Nextcloud destination folder path",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 1,
                     "name": "destination_path",
                     "id": 2,
@@ -107,11 +97,6 @@
                 "add_string": {
                     "description": "Add string in file name ( if add_random_string is selected this will be ignored)",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 2,
                     "name": "add_string",
                     "id": 3,
@@ -120,9 +105,6 @@
                 "add_random_string": {
                     "description": "Add random string in file name",
                     "data_type": "boolean",
-                    "required": true,
-                    "primary": false,
-                    "contains": [],
                     "default": false,
                     "order": 3,
                     "name": "add_random_string",
@@ -137,38 +119,43 @@
                     "contains": [
                         "vault id"
                     ],
-                    "column_name": "vault_id",
+                    "column_name": "Vault ID",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.destination_path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "destination_path",
+                    "column_name": "Destination Path",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.add_string",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "add_string",
+                    "column_name": "Add String",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.add_random_string",
                     "data_type": "boolean",
-                    "contains": [],
-                    "column_name": "add_random_string",
+                    "column_name": "Add Random String",
                     "column_order": 3
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 4
+                    "column_name": "Status",
+                    "column_order": 4,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
@@ -197,10 +184,6 @@
                     "description": "File or folder path",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 0,
                     "name": "path",
                     "id": 1,
@@ -211,18 +194,25 @@
                 {
                     "data_path": "action_result.parameter.path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "path",
+                    "column_name": "Path",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
@@ -251,10 +241,6 @@
                     "description": "Path of folder to be created",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 0,
                     "name": "path",
                     "id": 1,
@@ -265,18 +251,25 @@
                 {
                     "data_path": "action_result.parameter.path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "path",
+                    "column_name": "Path",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
@@ -305,10 +298,6 @@
                     "description": "Folder path to be downloaded",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 0,
                     "name": "path",
                     "id": 1,
@@ -319,18 +308,25 @@
                 {
                     "data_path": "action_result.parameter.path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "path",
+                    "column_name": "Path",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
@@ -359,10 +355,6 @@
                     "description": "File path to be downloaded",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 0,
                     "name": "path",
                     "id": 1,
@@ -373,18 +365,25 @@
                 {
                     "data_path": "action_result.parameter.path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "path",
+                    "column_name": "Path",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
@@ -413,10 +412,6 @@
                     "description": "Folder path to be listed",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 0,
                     "name": "path",
                     "id": 1,
@@ -425,10 +420,6 @@
                 "depth": {
                     "description": "Depth of listing",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
                     "default": "1",
                     "order": 1,
                     "name": "depth",
@@ -440,25 +431,31 @@
                 {
                     "data_path": "action_result.parameter.path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "path",
+                    "column_name": "Path",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.depth",
                     "data_type": "numeric",
-                    "contains": [],
-                    "column_name": "depth",
+                    "column_name": "Depth",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 2
+                    "column_name": "Status",
+                    "column_order": 2,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
@@ -487,10 +484,6 @@
                     "description": "Initial file path",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 0,
                     "name": "initial_path",
                     "id": 1,
@@ -500,10 +493,6 @@
                     "description": "Destination file path",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 1,
                     "name": "destination_path",
                     "id": 2,
@@ -514,25 +503,31 @@
                 {
                     "data_path": "action_result.parameter.initial_path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "initial_path",
+                    "column_name": "Initial Path",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.destination_path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "destination_path",
+                    "column_name": "Destination Path",
                     "column_order": 1
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 2
+                    "column_name": "Status",
+                    "column_order": 2,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
@@ -561,10 +556,6 @@
                     "description": "File path to get info",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
                     "order": 0,
                     "name": "path",
                     "id": 1,
@@ -575,18 +566,25 @@
                 {
                     "data_path": "action_result.parameter.path",
                     "data_type": "string",
-                    "contains": [],
-                    "column_name": "path",
+                    "column_name": "Path",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
@@ -605,9 +603,26 @@
         }
     ],
     "pip3_dependencies": {
-        "pypi": [
+        "wheel": [
             {
-                "module": "pyncclient"
+                "module": "certifi",
+                "input_file": "wheels/py3/certifi-2023.5.7-py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/shared/idna-2.10-py2.py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/shared/requests-2.25.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/shared/urllib3-1.26.16-py2.py3-none-any.whl"
             }
         ]
     },
