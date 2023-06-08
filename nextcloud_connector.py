@@ -161,7 +161,7 @@ class NextcloudConnector(BaseConnector):
             destination_path = param['destination_path'].lstrip('/').rstrip('/') + '/' + self._randomstr() + '_' + name
         result, rest_result = self._make_rest_call(action='upload_file', destination_path=destination_path, file_path=file_path)
         if result is False:
-            action_result.set_status(phantom.APP_ERROR, "Action failed")
+            return action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
         summary['status'] = 'Success'
         summary['destination_path'] = destination_path
@@ -174,7 +174,7 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("path: {}".format(path))
         result, rest_result = self._make_rest_call(action='delete', delete_path=path)
         if result is False:
-            action_result.set_status(phantom.APP_ERROR, "Action failed")
+            return action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
         summary['status'] = 'Success'
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -186,7 +186,7 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("path: {}".format(path))
         result, rest_result = self._make_rest_call(action='create_folder', create_folder=path)
         if result is False:
-            action_result.set_status(phantom.APP_ERROR, "Action failed")
+            return action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
         summary['status'] = 'Success'
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -201,7 +201,7 @@ class NextcloudConnector(BaseConnector):
         result, rest_result = self._make_rest_call(
             action='download_folder', download_folder=path, download_path=download_path, file_name=folder_name + '.zip')
         if result is False:
-            action_result.set_status(phantom.APP_ERROR, "Action failed")
+            return action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
         summary['status'] = 'Success'
         summary['vault_id'] = rest_result[2]
@@ -216,7 +216,7 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("download_path: {}".format(download_path))
         result, rest_result = self._make_rest_call(action='download_file', download_file=path, download_path=download_path, file_name=file_name)
         if result is False:
-            action_result.set_status(phantom.APP_ERROR, "Action failed")
+            return action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
         summary['status'] = 'Success'
         summary['vault_id'] = rest_result[2]
@@ -230,7 +230,7 @@ class NextcloudConnector(BaseConnector):
         depth = param.get('depth', '')
         result, rest_result = self._make_rest_call(action='list', path=path, depth=depth)
         if result is False:
-            action_result.set_status(phantom.APP_ERROR, "Action failed")
+            return action_result.set_status(phantom.APP_ERROR, "Action failed")
         action_result.add_data({'result': [{
                                     'path': i.path,
                                     'file_type': i.file_type,
@@ -249,7 +249,7 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("destination_path: {}".format(destination_path))
         result, rest_result = self._make_rest_call(action='move', initial_path=initial_path, destination_path=destination_path)
         if result is False:
-            action_result.set_status(phantom.APP_ERROR, "Action failed")
+            return action_result.set_status(phantom.APP_ERROR, "Action failed")
         summary = action_result.update_summary({})
         summary['status'] = 'Success'
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -261,7 +261,7 @@ class NextcloudConnector(BaseConnector):
         self.save_progress("path: {}".format(path))
         result, rest_result = self._make_rest_call(action='file_info', path=path)
         if result is False:
-            action_result.set_status(phantom.APP_ERROR, "Action failed")
+            return action_result.set_status(phantom.APP_ERROR, "Action failed")
         action_result.add_data({'path': rest_result.path,
                                 'file_type': rest_result.file_type,
                                 'attributes': rest_result.attributes
