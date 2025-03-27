@@ -10,13 +10,13 @@ License: MPL-2.0
 
 Name: charset-normalizer
 Version: 3.4.1
-Author: 
+Author:
 License: MIT
 
 Name: idna
 Version: 3.10
-Author: 
-License: 
+Author:
+License:
 
 Name: pyncclient
 Version: 0.7
@@ -35,6 +35,5 @@ License: MIT
 
 Name: urllib3
 Version: 2.3.0
-Author: 
-License: 
-
+Author:
+License:
