@@ -634,18 +634,6 @@
             "versions": "EQ(*)"
         }
     ],
-    "pip3_dependencies": {
-        "wheel": [
-            {
-                "module": "pyncclient",
-                "input_file": "wheels/py3/pyncclient-0.7-py3-none-any.whl"
-            },
-            {
-                "module": "six",
-                "input_file": "wheels/shared/six-1.16.0-py2.py3-none-any.whl"
-            }
-        ]
-    },
     "directory": "nextcloud_6cf06b58-8900-447f-b341-256460b96e1d",
     "version": 1,
     "appname": "-",
