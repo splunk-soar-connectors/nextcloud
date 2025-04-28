@@ -634,12 +634,6 @@
             "versions": "EQ(*)"
         }
     ],
-    "directory": "nextcloud_6cf06b58-8900-447f-b341-256460b96e1d",
-    "version": 1,
-    "appname": "-",
-    "executable": "spawn3",
-    "disabled": false,
-    "custom_made": true,
     "pip39_dependencies": {
         "wheel": [
             {
