@@ -1,7 +1,7 @@
 # Nextcloud
 
 Publisher: Ionut Ciubotarasu \
-Connector Version: 1.0.1 \
+Connector Version: 1.0.2 \
 Product Vendor: Nextcloud \
 Product Name: Nextcloud \
 Minimum Product Version: 6.0.0
